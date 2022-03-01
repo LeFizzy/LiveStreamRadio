@@ -14,9 +14,9 @@ VOLUME="0.8"
 THREAD_COUNT="0"
 
 #
-# Absolute path of the directory your music is stored in
+# Local or remote address for the music stream.
 #
-MUSIC_DIR="${SCRIPT_DIR}/media/music"
+MUSIC_STREAM_URL="http://server/radio.mp3"
 
 #
 # Filepath of your background video. Must be a streamable MKV, FLV or MP4 file
