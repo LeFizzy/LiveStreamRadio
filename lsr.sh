@@ -2,10 +2,8 @@
 . ./config.sh
 
 # Constants
-PLAYER_SCREEN_NAME="lsr_player"
 STREAM_SCREEN_NAME="lsr_stream"
 VERSION="1.0.0-alpha"
-
 
 function main() {
   if [[ $# -eq 0 ]]; then
@@ -65,14 +63,10 @@ function help() {
 #
 function start() {
   if [ -z ${1+x} ]; then
-    start_player
     start_stream
   else
     if [ ${1} = "all" ]; then
-      start_player
       start_stream
-    elif [ ${1} = "player" ]; then
-      start_player
     elif [ ${1} = "stream" ]; then
       start_stream
     else
@@ -87,21 +81,13 @@ function start() {
 function restart() {
   if [ -z ${1+x} ]; then
     stop_stream
-    stop_player
     sleep 1
-    start_player
     start_stream
   else
     if [ ${1} = "all" ]; then
       stop_stream
-      stop_player
       sleep 1
-      start_player
       start_stream
-    elif [ ${1} = "player" ]; then
-      stop_player
-      sleep 1
-      start_player
     elif [ ${1} = "stream" ]; then
       stop_stream
       sleep 1
@@ -117,33 +103,15 @@ function restart() {
 #
 function quit() {
   if [ -z ${1+x} ]; then
-    stop_player
     stop_stream
   else
     if [ ${1} = "all" ]; then
       stop_stream
-      stop_player
-    elif [ ${1} = "player" ]; then
-      stop_player
     elif [ ${1} = "stream" ]; then
       stop_stream
     else
       echo "Unable to stop requested ressource"
     fi
-  fi
-}
-
-#
-# Start player
-#
-function start_player() {
-  screen_exists "${PLAYER_SCREEN_NAME}"
-  player_running=$?
-  if [ $player_running -eq 0 ]; then
-    echo "${PLAYER_SCREEN_NAME} is already running"
-  else
-    find $MUSIC_FOLDER -name "*.mp3" > ${SCRIPT_DIR}/playlist.txt
-    screen_create "$PLAYER_SCREEN_NAME" "$SCRIPT_DIR/player.sh"
   fi
 }
 
@@ -158,15 +126,6 @@ function start_stream() {
   else
     screen_create "$STREAM_SCREEN_NAME" "$SCRIPT_DIR/stream.sh"
   fi
-}
-
-#
-# Start player
-#
-function stop_player() {
-  screen_send "$PLAYER_SCREEN_NAME" "q^M"
-  sleep 1
-  screen_quit "$PLAYER_SCREEN_NAME"
 }
 
 #
